@@ -1,0 +1,79 @@
+.grid-container {
+	width: auto;
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	padding: 5px;
+	grid-gap: 5px;
+}
+
+.item2{
+	grid-column: 2 / 5;
+}
+
+.item3{
+	float: left;
+}
+.item4{
+	grid-column: 4 / 5;
+}
+
+textarea {
+  resize: none;
+}
+
+label{
+	text-align: justify;
+}
+
+.btn{
+	margin-left: 5px;
+}
+
+tr, th{
+	text-align: center;
+}
+
+input, textarea{
+	text-align: right;
+}
+
+.form-group{
+	margin-bottom: 0px;
+}
+
+.table>tbody>tr>td{
+    vertical-align: baseline;
+}
+
+#forma2{
+	margin-top: 20px;
+	float: right;
+	width: 25%;
+}
+
+#newTask{
+	margin-top: 10px;
+	margin-left: 0px;
+	margin-bottom: 10px;
+}
+
+.bord{
+	border: 2px solid black;
+	float: right;
+}
+
+.bord:hover{
+	border: 2px solid black;
+}
+
+.glyphicon-remove{
+	color: red;
+}
+
+[title].btn.btn-default.btn-xs:active{
+    background-color: #d4edda;
+}
+
+form#forma1>input,textarea{
+	text-align: left;
+}
