@@ -11,7 +11,8 @@ $(document).ready(function(){
 		data = data+"&update="+update+"&myId="+myId;
 		event.preventDefault();
 		
-		/*Check if there is empty field. If there isn't any empty fields, send serialized data to server.*/
+		/*Check if there is empty field. If there isn't any empty fields, send serialized data to server. 
+		This also works for editing.*/
 		if(!(data.indexOf('=&') > -1 || data.substr(data.length - 1) == '=')){
 			
 			$.ajax({
