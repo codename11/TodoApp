@@ -7,60 +7,64 @@ $(document).ready(function(){
 	$("#btn1").click(function(){//Click on element type button id="btn1" to make ajax call.
 	
 		var data = $("#forma1").serialize();
-		
+		console.log(data);
 		data = data+"&update="+update+"&myId="+myId;
-		
 		event.preventDefault();
-		$.ajax({
-			type: "GET",//POST or GET
-			url: "upis.php",//Where data to send.
-			contentType: "text/html",//Regular html format
-			data: data,//For displaying use this: print_r($_GET);
-			//data: JSON.stringify($("#forma1").serialize()),//Serialization of form. echo(json_encode($_GET));//Should use this if it's jquery ajax json string.
-			//contentType:"application/json;charset=utf-8", //If you want json data type.
-		   success: function (result) {//If succesfull 
-				
-				var checkFirstChar = result.substr(0,1);
-				
-				if(checkFirstChar!=="{"){
-					result = result.substr(1);
-				}
-
-				var obj = JSON.parse(result);
-				var table = "<table id='tabela' class='table table-bordered table-hover table-responsive table-condensed'><thead><th>Summary<button id='bt1' class='btn btn-default btn-xs bord' type='button' onclick='sort(this)'><span id='b1' class='glyphicon glyphicon-triangle-bottom'></span></button></th><th>Status<button id='bt2' class='btn btn-default btn-xs bord' type='button' onclick='sort(this)'><span id='b2' class='glyphicon glyphicon-triangle-bottom'></span></button></th><th>Due date<button id='bt3' class='btn btn-default btn-xs bord' type='button' onclick='sort(this)'><span id='b3' class='glyphicon glyphicon-triangle-bottom'></span></button></th><th>Actions</th></tr></thead><tbody>";
-
-				var len = obj.statId.length;
-				var select1 = "";
-				for(var i=0;i<len;i++){
-					
-					if(obj.statId[i]=="1"){//Pending selected
-					
-						select1 = "<div class='form-group'><select class='form-control' id='sel1'><option value='1' selected>Pending</option><option value='2'>In progress</option><option value='3'>Completed</option></select></div>";
-						
-					}
-					else if(obj.statId[i]=="2"){//In progress selected
-					
-						select1 = "<div class='form-group'><select class='form-control' id='sel1'><option value='1'>Pending</option><option value='2' selected>In progress</option><option value='3'>Completed</option></select></div>";
-						
-					}
-					else if(obj.statId[i]=="3"){//Completed selected
-					
-						select1 = "<div class='form-group'><select class='form-control' id='sel1'><option value='1'>Pending</option><option value='2'>In progress</option><option value='3' selected>Completed</option></select></div>";
-						
-					}
-					
-					table += "<tr><td>"+obj.summary[i]+"</td><td>"+select1+"</td><td>"+obj.due_date[i]+"</td><td><button id='btnx"+(1*(i+1))+"' type='button' class='btn btn-default btn-xs' data-toggle='modal' data-target='#myModal' onclick='populateModal(this)'><span class='glyphicon glyphicon-edit' title='Edit record'></span></button><button onclick='setToCompleted(this)' title='Set to completed' id='btny"+(2*(i+1))+"' type='button' class='btn btn-default btn-xs'><span class='glyphicon glyphicon-check'></span></button><button id='btnz"+(3*(i+1))+"' type='button' class='btn btn-default btn-xs' onclick='deleteRecord(this)'><span class='glyphicon glyphicon-remove' title='Remove record'></span></button></td></tr>";
-				}
-				table += "</tbody></table>";
-				$("#raport").html(table);//Display in div with id=raport.
-				
-		   },
-		   error: function () {//In case of an error
-				alert("Error!!!");
-		   }
-		});
 		
-		update = "false";
+		/*Check if there is empty field. If there isn't any empty fields, send serialized data to server.*/
+		if(!(data.indexOf('=&') > -1 || data.substr(data.length - 1) == '=')){
+			
+			$.ajax({
+					type: "GET",//POST or GET
+					url: "upis.php",//Where data to send.
+					contentType: "text/html",//Regular html format
+					data: data,//For displaying use this: print_r($_GET);
+					//data: JSON.stringify($("#forma1").serialize()),//Serialization of form. echo(json_encode($_GET));//Should use this if it's jquery ajax json string.
+					//contentType:"application/json;charset=utf-8", //If you want json data type.
+				   success: function (result) {//If succesfull 
+						console.log(result);
+						var checkFirstChar = result.substr(0,1);
+						
+						if(checkFirstChar!=="{"){
+							result = result.substr(1);
+						}
+
+						var obj = JSON.parse(result);
+						var table = "<table id='tabela' class='table table-bordered table-hover table-responsive table-condensed'><thead><th>Summary<button id='bt1' class='btn btn-default btn-xs bord' type='button' onclick='sort(this)'><span id='b1' class='glyphicon glyphicon-triangle-bottom'></span></button></th><th>Status<button id='bt2' class='btn btn-default btn-xs bord' type='button' onclick='sort(this)'><span id='b2' class='glyphicon glyphicon-triangle-bottom'></span></button></th><th>Due date<button id='bt3' class='btn btn-default btn-xs bord' type='button' onclick='sort(this)'><span id='b3' class='glyphicon glyphicon-triangle-bottom'></span></button></th><th>Actions</th></tr></thead><tbody>";
+
+						var len = obj.statId.length;
+						var select1 = "";
+						for(var i=0;i<len;i++){
+							
+							if(obj.statId[i]=="1"){//Pending selected
+							
+								select1 = "<div class='form-group'><select class='form-control' id='sel1'><option value='1' selected>Pending</option><option value='2'>In progress</option><option value='3'>Completed</option></select></div>";
+								
+							}
+							else if(obj.statId[i]=="2"){//In progress selected
+							
+								select1 = "<div class='form-group'><select class='form-control' id='sel1'><option value='1'>Pending</option><option value='2' selected>In progress</option><option value='3'>Completed</option></select></div>";
+								
+							}
+							else if(obj.statId[i]=="3"){//Completed selected
+							
+								select1 = "<div class='form-group'><select class='form-control' id='sel1'><option value='1'>Pending</option><option value='2'>In progress</option><option value='3' selected>Completed</option></select></div>";
+								
+							}
+							
+							table += "<tr><td>"+obj.summary[i]+"</td><td>"+select1+"</td><td>"+obj.due_date[i]+"</td><td><button id='btnx"+(1*(i+1))+"' type='button' class='btn btn-default btn-xs' data-toggle='modal' data-target='#myModal' onclick='populateModal(this)'><span class='glyphicon glyphicon-edit' title='Edit record'></span></button><button onclick='setToCompleted(this)' title='Set to completed' id='btny"+(2*(i+1))+"' type='button' class='btn btn-default btn-xs'><span class='glyphicon glyphicon-check'></span></button><button id='btnz"+(3*(i+1))+"' type='button' class='btn btn-default btn-xs' onclick='deleteRecord(this)'><span class='glyphicon glyphicon-remove' title='Remove record'></span></button></td></tr>";
+						}
+						table += "</tbody></table>";
+						$("#raport").html(table);//Display in div with id=raport.
+						
+				   },
+				   error: function () {//In case of an error
+						alert("Error!!!");
+				   }
+			});
+			update = "false";
+			
+		}
 		
 	});
 	

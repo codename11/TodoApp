@@ -19,7 +19,7 @@ if(isset($_GET)){
 	$form_var[2]== description;
 	$form_var[3]== update; // "true" or "false"
 	*/
-
+	
 	$servername = "127.0.0.1";
 	$username = "root";
 	$password = "";
